@@ -17,6 +17,7 @@ export interface ISettingsState {
   pornToCumTo: PornList
   pornQuality: PornQuality
   startVideosAtRandomTime: boolean
+  videosMuted: boolean
   events: Array<EventToken['id']>
   hypno: HypnoMode
   player: {
@@ -46,6 +47,7 @@ const settingsSlice = createSlice({
     pornToCumTo: [],
     pornQuality: PornQuality.LOW,
     startVideosAtRandomTime: true,
+    videosMuted: false,
     events: events.map((event) => event.id),
     hypno: HypnoMode.JOI,
     player: { gender: PlayerGender.Male, parts: PlayerParts.Cock },
@@ -104,6 +106,9 @@ const settingsSlice = createSlice({
     },
     SetStartVideosAtRandomTime: (state, action: PayloadAction<boolean>) => {
       state.startVideosAtRandomTime = action.payload
+    },
+    SetVideosMuted: (state, action: PayloadAction<boolean>) => {
+      state.videosMuted = action.payload
     },
     SetEventList: (state, action: PayloadAction<Array<EventToken['id']>>) => {
       state.events = action.payload

@@ -16,6 +16,8 @@ export interface IPornSettingProps {
   setPornQuality: (newQuality: PornQuality) => void
   startVideosAtRandomTime: boolean
   setStartVideosAtRandomTime: (randomStart: boolean) => void
+  videosMuted: boolean
+  setVideosMuted: (videosMuted: boolean) => void
   porn: PornList
   setPorn: (newPornList: PornList) => void
   pornToCumTo: PornList
@@ -24,7 +26,7 @@ export interface IPornSettingProps {
 
 export const PornSetting: FunctionComponent<IPornSettingProps> = (props) => {
   const [selectedTab, setSelectedTab] = useState(1);
-  const {setPornQuality, setStartVideosAtRandomTime} = props;
+  const {setPornQuality, setStartVideosAtRandomTime, setVideosMuted} = props;
 
   const updateHighRes = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -38,6 +40,13 @@ export const PornSetting: FunctionComponent<IPornSettingProps> = (props) => {
       setStartVideosAtRandomTime(event.target.checked)
     },
     [setStartVideosAtRandomTime],
+  )
+
+  const updateVideosMuted = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      setVideosMuted(event.target.checked)
+    },
+    [setVideosMuted],
   )
 
   const clear = useCallback((cumTo: boolean) => {
@@ -114,6 +123,11 @@ export const PornSetting: FunctionComponent<IPornSettingProps> = (props) => {
             <span>Start videos at random time</span>
             <input type="checkbox" checked={props.startVideosAtRandomTime} onChange={updateStartVideosAtRandomTime} />
           </label>
+          <br/>
+          <label>
+            <span>Mute Videos</span>
+            <input type="checkbox" checked={props.videosMuted} onChange={updateVideosMuted} />
+          </label>
         </div>
 
         {props.porn.length > 0 && (
@@ -124,7 +138,7 @@ export const PornSetting: FunctionComponent<IPornSettingProps> = (props) => {
             </span>
             <div className="PornSetting__thumbnails">
               {props.porn.map((porn) => (
-                <PornThumbnail key={`${porn.service}-${porn.uniqueId}`} porn={porn} onDelete={(porn) => clearOne(porn, false)} />
+                <PornThumbnail key={`${porn.service}-${porn.uniqueId}`} porn={porn} videosMuted={props.videosMuted} onDelete={(porn) => clearOne(porn, false)} />
               ))}
             </div>
           </div>
@@ -138,7 +152,7 @@ export const PornSetting: FunctionComponent<IPornSettingProps> = (props) => {
             </span>
             <div className="PornSetting__thumbnails">
               {props.pornToCumTo.map((porn) => (
-                <PornThumbnail key={`${porn.service}-${porn.uniqueId}`} porn={porn} onDelete={(porn) => clearOne(porn, true)} />
+                <PornThumbnail key={`${porn.service}-${porn.uniqueId}`} porn={porn} videosMuted={props.videosMuted}  onDelete={(porn) => clearOne(porn, true)} />
               ))}
             </div>
           </div>

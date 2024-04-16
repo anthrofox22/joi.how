@@ -4,6 +4,7 @@ import { type PornItem, PornType, PornService } from '../../../gameboard/types'
 
 interface IPornThumbnailProps {
   porn: PornItem
+  videosMuted: boolean
   onDelete: (porn: PornItem) => void
 }
 
@@ -71,7 +72,7 @@ const VideoPreview = styled.video`
   }
 `
 
-export const PornThumbnail: FunctionComponent<IPornThumbnailProps> = ({ porn, onDelete }) => {
+export const PornThumbnail: FunctionComponent<IPornThumbnailProps> = ({ porn, videosMuted, onDelete }) => {
   const preload = new Image()
   preload.src = porn.previewUrl
 
@@ -86,7 +87,7 @@ export const PornThumbnail: FunctionComponent<IPornThumbnailProps> = ({ porn, on
       onMouseLeave={() => setIsPreviewShowing(false)}
     >
       {porn.service === PornService.LOCAL && <i title={porn.uniqueId}>📁</i>}
-      {porn.type === PornType.VIDEO && isPreviewShowing && <VideoPreview src={porn.hoverPreviewUrl} autoPlay={true} loop={true} />}
+      {porn.type === PornType.VIDEO && isPreviewShowing && <VideoPreview src={porn.hoverPreviewUrl} autoPlay={true} loop={true} muted={videosMuted} />}
       {porn.type !== PornType.VIDEO && <ThumbnailPreview src={porn.hoverPreviewUrl} />}
     </Thumbnail>
   )
