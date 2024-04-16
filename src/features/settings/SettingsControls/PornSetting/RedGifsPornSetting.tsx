@@ -144,7 +144,7 @@ export const RedGifsPornSetting: FunctionComponent<IRedGifsPornSettingProps> = (
 
       <div className="settings-innerrow">
         <label>
-          <span>Credentials (auto generated)</span>
+          <span>Auth Token</span>
           <input type="text" value={authToken ?? ""} onChange={updateAuthToken} />
           <button onClick={() => generateCredentials()}>Generate</button>
           <button onClick={() => saveCredentials()}>Save</button>

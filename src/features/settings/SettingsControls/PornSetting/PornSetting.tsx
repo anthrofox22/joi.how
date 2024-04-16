@@ -14,6 +14,8 @@ export interface IPornSettingProps {
   setCredentials: (service: PornService, credentials?: Credentials[PornService]) => void
   pornQuality: PornQuality
   setPornQuality: (newQuality: PornQuality) => void
+  startVideosAtRandomTime: boolean
+  setStartVideosAtRandomTime: (randomStart: boolean) => void
   porn: PornList
   setPorn: (newPornList: PornList) => void
   pornToCumTo: PornList
@@ -22,13 +24,20 @@ export interface IPornSettingProps {
 
 export const PornSetting: FunctionComponent<IPornSettingProps> = (props) => {
   const [selectedTab, setSelectedTab] = useState(1);
-  const {setPornQuality} = props;
+  const {setPornQuality, setStartVideosAtRandomTime} = props;
 
   const updateHighRes = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
       setPornQuality(event.target.checked ? PornQuality.HIGH : PornQuality.LOW)
     },
     [setPornQuality],
+  )
+
+  const updateStartVideosAtRandomTime = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      setStartVideosAtRandomTime(event.target.checked)
+    },
+    [setStartVideosAtRandomTime],
   )
 
   const clear = useCallback((cumTo: boolean) => {
@@ -97,6 +106,13 @@ export const PornSetting: FunctionComponent<IPornSettingProps> = (props) => {
             <span>Use high-res images/videos</span>
             <input type="checkbox" checked={props.pornQuality === PornQuality.HIGH} onChange={updateHighRes} />
             <i className="emoji-icon">{props.pornQuality === PornQuality.HIGH ? '🦄' : '🐴'}</i>
+          </label>
+        </div>
+
+        <div className="settings-innerrow">
+          <label>
+            <span>Start videos at random time</span>
+            <input type="checkbox" checked={props.startVideosAtRandomTime} onChange={updateStartVideosAtRandomTime} />
           </label>
         </div>
 

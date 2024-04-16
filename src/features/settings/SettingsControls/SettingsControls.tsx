@@ -45,6 +45,8 @@ export const SettingsControls: FunctionComponent = () => {
         setCredentials={(service: PornService, credentials: Credentials[PornService]) => dispatch(SettingsActions.SetCredentials({service, credentials}))}
         pornQuality={settings.pornQuality}
         setPornQuality={(quality: PornQuality) => dispatch(SettingsActions.SetPornQuality(quality))}
+        startVideosAtRandomTime={settings.startVideosAtRandomTime}
+        setStartVideosAtRandomTime={(randomStart: boolean) => dispatch(SettingsActions.SetStartVideosAtRandomTime(randomStart))}
         porn={settings.porn}
         setPorn={(newList) => dispatch(SettingsActions.SetPornList(newList))}
         pornToCumTo={settings.pornToCumTo}

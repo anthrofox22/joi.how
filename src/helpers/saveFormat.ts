@@ -13,6 +13,8 @@ interface EncodedSettings {
   credentials?: string
   porn: IState['settings']['porn']
   pornToCumTo: IState['settings']['pornToCumTo']
+  pornQuality: IState['settings']['pornQuality']
+  startVideosAtRandomTime: IState['settings']['startVideosAtRandomTime']
   events: IState['settings']['events']
   hypno: IState['settings']['hypno']
   gender: IState['settings']['player']['gender']
@@ -27,7 +29,7 @@ type RecursivePartial<T> = {
 }
 
 export type DecodedSettings = Partial<
-  Pick<IState['settings'], 'warmpupDuration' | 'duration' | 'steepness' | 'events' | 'hypno' | 'credentials' | 'porn' | 'pornToCumTo' | 'walltaker'>
+  Pick<IState['settings'], 'warmpupDuration' | 'duration' | 'steepness' | 'events' | 'hypno' | 'credentials' | 'porn' | 'pornToCumTo' | 'pornQuality' | 'startVideosAtRandomTime' | 'walltaker'>
 > &
   RecursivePartial<Pick<IState['settings'], 'player' | 'pace' | 'cum'>>
 
@@ -43,6 +45,8 @@ export function encodeSettings(settings: IState['settings'], options?: { include
   const credentials: IState['settings']['credentials'] = settings.credentials
   const porn: IState['settings']['porn'] = settings.porn.filter(({service}) => service !== PornService.LOCAL)
   const pornToCumTo: IState['settings']['pornToCumTo'] = settings.pornToCumTo.filter(({service}) => service !== PornService.LOCAL)
+  const pornQuality: IState['settings']['pornQuality'] = settings.pornQuality
+  const startVideosAtRandomTime: IState['settings']['startVideosAtRandomTime'] = settings.startVideosAtRandomTime
   const events: IState['settings']['events'] = settings.events
   const hypno: IState['settings']['hypno'] = settings.hypno
   const player: IState['settings']['player'] = settings.player
@@ -58,6 +62,8 @@ export function encodeSettings(settings: IState['settings'], options?: { include
     credentials: options?.includeCredentials ? encodeCredentials(credentials) : undefined,
     porn,
     pornToCumTo,
+    pornQuality,
+    startVideosAtRandomTime,
     events,
     hypno,
     gender: player.gender,
@@ -80,6 +86,8 @@ export function decodeSettings(url: string): DecodedSettings {
     credentials,
     porn,
     pornToCumTo,
+    pornQuality,
+    startVideosAtRandomTime,
     events,
     hypno,
     gender,
@@ -100,6 +108,8 @@ export function decodeSettings(url: string): DecodedSettings {
     credentials: decodeCredentials(credentials),
     porn,
     pornToCumTo,
+    pornQuality,
+    startVideosAtRandomTime,
     events,
     hypno: hypno,
     player: {
@@ -139,6 +149,8 @@ export function applyAllSettings(settings: DecodedSettings, dispatch: ThunkDispa
   if (settings.credentials != null) dispatch(SettingsActions.SetAllCredentials(settings.credentials))
   if (settings.porn != null) dispatch(SettingsActions.SetPornList(settings.porn))
   if (settings.pornToCumTo != null) dispatch(SettingsActions.SetPornToCumToList(settings.pornToCumTo))
+  if (settings.pornQuality != null) dispatch(SettingsActions.SetPornQuality(settings.pornQuality))
+  if (settings.startVideosAtRandomTime != null) dispatch(SettingsActions.SetStartVideosAtRandomTime(settings.startVideosAtRandomTime))
   if (settings.cum?.ejaculateLikelihood != null) dispatch(SettingsActions.SetEjaculateLikelihood(settings.cum.ejaculateLikelihood))
   if (settings.cum?.ruinLikelihood != null) dispatch(SettingsActions.SetRuinLikelihood(settings.cum.ruinLikelihood))
 }
