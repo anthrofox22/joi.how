@@ -15,7 +15,6 @@ export enum EGrip {
 export enum PornService {
     E621,
     WALLTAKER,
-    REDGIFS,
     LOCAL,
     STASH
 }
@@ -23,7 +22,6 @@ export enum PornService {
 export interface Credentials {
   [PornService.E621]?: E621Credentials | undefined,
   [PornService.WALLTAKER]?: undefined,
-  [PornService.REDGIFS]?: RedGifsCredentials | undefined
   [PornService.LOCAL]?: undefined,
   [PornService.STASH]?: StashCredentials | undefined
 }
@@ -31,10 +29,6 @@ export interface Credentials {
 interface E621Credentials {
   username: string
   password: string
-}
-
-interface RedGifsCredentials {
-  authToken: string
 }
 
 interface StashCredentials {

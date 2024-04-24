@@ -1,7 +1,6 @@
 import { type PornItem, type Credentials, type PornList, PornQuality, PornService } from '../../../gameboard/types'
 import { LocalFilesPornSetting } from './LocalFilesPornSetting'
 import { E621PornSetting } from './E621PornSetting'
-import { RedGifsPornSetting } from './RedGifsPornSetting'
 import { StashPornSetting } from './StashPornSetting'
 import { PornThumbnail } from './PornThumbnail'
 import type { FunctionComponent } from 'react'
@@ -81,13 +80,6 @@ export const PornSetting: FunctionComponent<IPornSettingProps> = (props) => {
             </button>
 
             <button
-              className={`PornSetting__service_tab ${selectedTab === PornService.REDGIFS ? 'PornSetting__service_tab--selected' : ''}`}
-              onClick={() => setSelectedTab(PornService.REDGIFS)}
-            >
-              <strong>RedGifs</strong>
-            </button>
-
-            <button
               className={`PornSetting__service_tab ${selectedTab === PornService.LOCAL ? 'PornSetting__service_tab--selected' : ''}`}
               onClick={() => setSelectedTab(PornService.LOCAL)}
             >
@@ -104,7 +96,6 @@ export const PornSetting: FunctionComponent<IPornSettingProps> = (props) => {
 
           <div className="PornSetting__service_tab_content">
             {selectedTab === PornService.E621 && <E621PornSetting {...props} />}
-            {selectedTab === PornService.REDGIFS && <RedGifsPornSetting {...props} />}
             {selectedTab === PornService.LOCAL && <LocalFilesPornSetting {...props} />}
             {selectedTab === PornService.STASH && <StashPornSetting {...props} />}
           </div>

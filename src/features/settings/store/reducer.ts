@@ -96,10 +96,6 @@ const settingsSlice = createSlice({
         state.credentials[PornService.E621] = action.payload.credentials as Credentials[PornService.E621]
       }
 
-      if (action.payload.service === PornService.REDGIFS) {
-        state.credentials[PornService.REDGIFS] = action.payload.credentials as Credentials[PornService.REDGIFS]
-      }
-
       if (action.payload.service === PornService.STASH) {
         state.credentials[PornService.STASH] = action.payload.credentials as Credentials[PornService.STASH]
       }
