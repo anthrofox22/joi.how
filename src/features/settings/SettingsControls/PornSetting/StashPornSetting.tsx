@@ -2,7 +2,7 @@ import axios, { type AxiosRequestConfig, type AxiosResponse } from 'axios'
 import type { FunctionComponent } from 'react'
 import { useCallback, useEffect, useState } from 'react'
 import { PornService, PornType, type PornList } from '../../../gameboard/types'
-import { StashSortOrder, type StashFindScenesResponse } from '../../types';
+import { StashFindPerformersResponse, StashPerformer, StashSortOrder, type StashFindScenesResponse } from '../../types';
 import '../settings.css'
 import './PornSetting.css'
 import { type IPornSettingProps } from './PornSetting'
@@ -15,6 +15,8 @@ export const StashPornSetting: FunctionComponent<IStashPornSettingProps> = (prop
   const [search, setSearch] = useState<string>('')
   const [sortOrder, setSortOrder] = useState<StashSortOrder>(StashSortOrder.DATE_ASC)
   const [count, setCount] = useState(30)
+  const [performer, setPerformer] = useState<string | undefined>(undefined)
+  const [performers, setPerformers] = useState<StashPerformer[]>([])
 
   useEffect(() => {
     if ((!apiKey || !instanceUrl) && props.credentials?.[PornService.STASH]) {
@@ -22,6 +24,47 @@ export const StashPornSetting: FunctionComponent<IStashPornSettingProps> = (prop
       setApiKey(props.credentials[PornService.STASH].apiKey)
     }
   }, [setInstanceUrl, setApiKey, props.credentials, instanceUrl, apiKey])
+
+  useEffect(() => {
+    if (apiKey && instanceUrl) {
+      const config: AxiosRequestConfig = {
+        headers: { ApiKey: apiKey },
+        responseType: 'json',
+      }
+      const body = {
+        "operationName": "FindPerformers",
+        "variables": {
+          "filter": {
+            "q": "",
+            "per_page": 200
+          },
+        },
+        "query": `query FindPerformers($filter: FindFilterType, $performer_filter: PerformerFilterType, $performer_ids: [Int!]) {
+            findPerformers(
+              filter: $filter
+              performer_filter: $performer_filter
+              performer_ids: $performer_ids
+            ) {
+                count
+                performers {
+                  id
+                  name
+                  gender
+              }
+          }
+        }`
+      }
+      const correctedInstanceUrl = instanceUrl?.endsWith('/') ? instanceUrl.slice(0, -1) : instanceUrl
+      void axios
+        .post(`${correctedInstanceUrl}/graphql`, body, config)
+        .then((response: AxiosResponse<StashFindPerformersResponse>) => {
+          setPerformers(response.data.data.findPerformers.performers)
+        }).catch((err) => {
+          setPerformers([])
+          console.error(err);
+        })
+    }
+  }, [instanceUrl, apiKey])
 
   const saveCredentials = useCallback(() => {
     if (apiKey == null || instanceUrl == null) {
@@ -49,6 +92,13 @@ export const StashPornSetting: FunctionComponent<IStashPornSettingProps> = (prop
       setSearch(event.target.value)
     },
     [setSearch],
+  )
+
+  const updatePerformer = useCallback(
+    (event: React.ChangeEvent<HTMLSelectElement>) => {
+      setPerformer(event.target.value.length > 0 ? event.target.value : undefined)
+    },
+    [setPerformer],
   )
 
   const updateSortOrder = useCallback(
@@ -87,7 +137,13 @@ export const StashPornSetting: FunctionComponent<IStashPornSettingProps> = (prop
           "sort": sort,
           "direction": direction
         },
-        "scene_filter": {}
+        "scene_filter": performer ? {
+          "performers": {
+            "value": [performer],
+            "excludes": [],
+            "modifier": "EQUALS"
+          }
+        } : {}
       },
       "query": `query FindScenes($filter: FindFilterType, $scene_filter: SceneFilterType, $scene_ids: [Int!]) {
         findScenes(filter: $filter, scene_filter: $scene_filter, scene_ids: $scene_ids) {
@@ -137,7 +193,7 @@ export const StashPornSetting: FunctionComponent<IStashPornSettingProps> = (prop
       }).catch((err) => {
         console.error(err);
       })
-  }, [apiKey, sortOrder, search, count, instanceUrl, props])
+  }, [apiKey, sortOrder, search, performer, count, instanceUrl, props])
 
   return (
     <div className="settings-row">
@@ -146,6 +202,16 @@ export const StashPornSetting: FunctionComponent<IStashPornSettingProps> = (prop
           <span>Search query</span>
           <input type="text" value={search} onChange={updateSearch} />
         </label>
+        <label>
+          <span>Performer</span>
+          <select onChange={updatePerformer}>
+            <option value={""} selected={performer === undefined}>All</option>
+            {performers.map(({ id, name, gender }) => (
+              <option key={id} value={id} selected={id === performer}>{name} ({ gender.split("_").map(g => g.toLowerCase()).join(" ") })</option>
+            ))}
+          </select>
+        </label>
+        <br/>
         <button onClick={() => downloadFromStash(false)}>Download files</button>
         <button onClick={() => downloadFromStash(true)}>Download files (For Cumming)</button>
       </div>

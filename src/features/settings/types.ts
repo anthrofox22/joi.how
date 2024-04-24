@@ -131,6 +131,13 @@ export enum StashSortOrder {
   RANDOM = 'random_ASC',
 }
 
+export type StashGender = 'MALE' | 'FEMALE' | 'TRANSGENDER_MALE' | 'TRANSGENDER_FEMALE' | 'INTERSEX' | 'NON_BINARY';
+export interface StashPerformer {
+  id: string;
+  name: string;
+  gender: StashGender;
+}
+
 export interface StashFindScenesResponse {
   data: {
     findScenes: {
@@ -146,6 +153,15 @@ export interface StashFindScenesResponse {
           duration: number
         }
       }>
+    }
+  }
+}
+
+export interface StashFindPerformersResponse {
+  data: {
+    findPerformers: {
+      count: number
+      performers: Array<StashPerformer>
     }
   }
 }
