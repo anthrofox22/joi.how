@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/joi.how/static/css/main.c15c5fbe.css",
+    "main.js": "/joi.how/static/js/main.046fc2c4.js",
+    "static/media/Run.svg": "/joi.how/static/media/Run.cf88a34b4e20ec21770a0e89faa502da.svg",
+    "static/media/Right.svg": "/joi.how/static/media/Right.647f0928b7a071952a74c5a1632d928b.svg",
+    "static/media/Left.svg": "/joi.how/static/media/Left.f1d01ab2daa9f5f47fe46c04d875fb63.svg",
+    "static/media/Walk.svg": "/joi.how/static/media/Walk.b81c2b61ff1a4b395c3441bfc5f71add.svg",
+    "static/media/Stopped.svg": "/joi.how/static/media/Stopped.ac55f183b637fccbd4eeda2214855e64.svg",
+    "static/media/Settings.svg": "/joi.how/static/media/Settings.da8e95279d011b939309e9578b99836c.svg",
+    "static/media/logo.svg": "/joi.how/static/media/logo.9552426175077088e9c45e541e0e7299.svg",
+    "static/media/warning.svg": "/joi.how/static/media/warning.45d70843bfa8d0dbf683d868e03305c1.svg",
+    "index.html": "/joi.how/index.html",
+    "static/media/Expand.svg": "/joi.how/static/media/Expand.c23df49e924a7d8c4ae5d4bb443494e0.svg",
+    "main.c15c5fbe.css.map": "/joi.how/static/css/main.c15c5fbe.css.map",
+    "main.046fc2c4.js.map": "/joi.how/static/js/main.046fc2c4.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.c15c5fbe.css",
+    "static/js/main.046fc2c4.js"
+  ]
+}
