@@ -19,11 +19,7 @@ To access a deployed verson of this fork please visit <https://anthrofox22.githu
 ### Features
 
 - e621 post loader, based on tags.
-- RedGifs post loader, based on search term.
-- [Stash](https://github.com/stashapp/stash) video loader, based on search term.
-- Local images and video loading.
 - Support for images, gifs and videos.
-- Differnt content shown during normal play and during orgasm period.
 - Stroke speed and control settings.
 - Events that adjust speed, or ask you to do something.
 - Warmup duration control.
@@ -42,8 +38,9 @@ Head over to [joi.how](https://joi.how) and try it out!
 The app is made with react and nodejs and fully open source.
 To locally run it:
 
-1. install [node 20](https://nodejs.org/)
-2. run
+1. install [node 20](https://nodejs.org/en/blog/release/v20.12.0/)
+2. install [yarn](https://classic.yarnpkg.com/lang/en/docs/install/)
+3. run
 
 ```sh
 git clone https://github.com/PawCorp/joi.how.git

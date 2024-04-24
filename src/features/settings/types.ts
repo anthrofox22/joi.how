@@ -5,7 +5,7 @@ export interface E621File {
 }
 
 export interface E621FileWithTypeAndMultipleUrls extends E621File {
-  type: "video"
+  type: 'video'
   url: never
   urls: Array<string | null>
 }
@@ -27,7 +27,7 @@ export interface E621Post {
   updated_at: string
   file: { ext: string; size: number; md5: string } & E621File
   preview: E621File
-  sample: { has: boolean, alternates?: Record<string, E621FileWithTypeAndMultipleUrls> } & E621File
+  sample: { has: boolean; alternates?: Record<string, E621FileWithTypeAndMultipleUrls> } & E621File
   score: { up: number; down: number; total: number }
   tags: {
     general: string[]

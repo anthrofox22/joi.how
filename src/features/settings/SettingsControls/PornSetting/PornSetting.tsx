@@ -1,13 +1,12 @@
-import type { FunctionComponent } from 'react'
-import { useCallback, useState } from 'react'
-import { type PornItem, type Credentials, type PornList, PornQuality, type PornService } from '../../../gameboard/types'
-import '../settings.css'
-import './PornSetting.css'
-import { PornThumbnail } from './PornThumbnail'
+import { type PornItem, type Credentials, type PornList, PornQuality, PornService } from '../../../gameboard/types'
+import { LocalFilesPornSetting } from './LocalFilesPornSetting'
 import { E621PornSetting } from './E621PornSetting'
 import { RedGifsPornSetting } from './RedGifsPornSetting'
-import { LocalFilesPornSetting } from './LocalFilesPornSetting'
 import { StashPornSetting } from './StashPornSetting'
+import { PornThumbnail } from './PornThumbnail'
+import type { FunctionComponent } from 'react'
+import { useCallback, useState } from 'react'
+import './PornSetting.css'
 
 export interface IPornSettingProps {
   credentials?: Credentials
@@ -25,8 +24,8 @@ export interface IPornSettingProps {
 }
 
 export const PornSetting: FunctionComponent<IPornSettingProps> = (props) => {
-  const [selectedTab, setSelectedTab] = useState(1);
-  const {setPornQuality, setStartVideosAtRandomTime, setVideosMuted} = props;
+  const [selectedTab, setSelectedTab] = useState(PornService.E621)
+  const { setPornQuality, setStartVideosAtRandomTime, setVideosMuted } = props
 
   const updateHighRes = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -74,39 +73,40 @@ export const PornSetting: FunctionComponent<IPornSettingProps> = (props) => {
       <div className="settings-row">
         <div className="PornSetting__services">
           <div className="PornSetting__service_tabs">
-            <button className={`PornSetting__service_tab ${selectedTab === 1 ? 'PornSetting__service_tab--selected' : ""}`} onClick={() => setSelectedTab(1)}>
+            <button
+              className={`PornSetting__service_tab ${selectedTab === PornService.E621 ? 'PornSetting__service_tab--selected' : ''}`}
+              onClick={() => setSelectedTab(PornService.E621)}
+            >
               <strong>E621</strong>
             </button>
 
-            <button className={`PornSetting__service_tab ${selectedTab === 2 ? 'PornSetting__service_tab--selected' : ""}`} onClick={() => setSelectedTab(2)}>
-              <strong>RedGIFs</strong>
+            <button
+              className={`PornSetting__service_tab ${selectedTab === PornService.REDGIFS ? 'PornSetting__service_tab--selected' : ''}`}
+              onClick={() => setSelectedTab(PornService.REDGIFS)}
+            >
+              <strong>RedGifs</strong>
             </button>
 
-            <button className={`PornSetting__service_tab ${selectedTab === 3 ? 'PornSetting__service_tab--selected' : ""}`} onClick={() => setSelectedTab(3)}>
+            <button
+              className={`PornSetting__service_tab ${selectedTab === PornService.LOCAL ? 'PornSetting__service_tab--selected' : ''}`}
+              onClick={() => setSelectedTab(PornService.LOCAL)}
+            >
               <strong>Local Files</strong>
             </button>
 
-            <button className={`PornSetting__service_tab ${selectedTab === 4 ? 'PornSetting__service_tab--selected' : ""}`} onClick={() => setSelectedTab(4)}>
+            <button
+              className={`PornSetting__service_tab ${selectedTab === PornService.STASH ? 'PornSetting__service_tab--selected' : ''}`}
+              onClick={() => setSelectedTab(PornService.STASH)}
+            >
               <strong>Stash</strong>
             </button>
           </div>
 
           <div className="PornSetting__service_tab_content">
-            {selectedTab === 1 && (
-              <E621PornSetting {...props} />
-            )}
-
-            {selectedTab === 2 && (
-              <RedGifsPornSetting {...props} />
-            )}
-
-            {selectedTab === 3 && (
-              <LocalFilesPornSetting {...props} />
-            )}
-
-            {selectedTab === 4 && (
-              <StashPornSetting {...props} />
-            )}
+            {selectedTab === PornService.E621 && <E621PornSetting {...props} />}
+            {selectedTab === PornService.REDGIFS && <RedGifsPornSetting {...props} />}
+            {selectedTab === PornService.LOCAL && <LocalFilesPornSetting {...props} />}
+            {selectedTab === PornService.STASH && <StashPornSetting {...props} />}
           </div>
         </div>
 
@@ -123,7 +123,7 @@ export const PornSetting: FunctionComponent<IPornSettingProps> = (props) => {
             <span>Start videos at random time</span>
             <input type="checkbox" checked={props.startVideosAtRandomTime} onChange={updateStartVideosAtRandomTime} />
           </label>
-          <br/>
+          <br />
           <label>
             <span>Mute Videos</span>
             <input type="checkbox" checked={props.videosMuted} onChange={updateVideosMuted} />

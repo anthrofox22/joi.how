@@ -1,14 +1,14 @@
-import { type AnyAction, type ThunkDispatch } from '@reduxjs/toolkit'
-import { debounce } from 'lodash'
 import { PornService, type Credentials } from '../features/gameboard/types'
+import { type Action, type ThunkDispatch } from '@reduxjs/toolkit'
 import { SettingsActions } from '../features/settings/store'
 import { type IState } from '../store'
+import { debounce } from 'lodash'
 
 interface EncodedSettings {
   paceMin: IState['settings']['pace']['min']
   paceMax: IState['settings']['pace']['max']
   steepness: IState['settings']['steepness']
-  warmpupDuration: IState['settings']['warmpupDuration']
+  warmupDuration: IState['settings']['warmupDuration']
   duration: IState['settings']['duration']
   credentials?: string
   porn: IState['settings']['porn']
@@ -30,7 +30,21 @@ type RecursivePartial<T> = {
 }
 
 export type DecodedSettings = Partial<
-  Pick<IState['settings'], 'warmpupDuration' | 'duration' | 'steepness' | 'events' | 'hypno' | 'credentials' | 'porn' | 'pornToCumTo' | 'pornQuality' | 'startVideosAtRandomTime' | 'videosMuted' | 'walltaker'>
+  Pick<
+    IState['settings'],
+    | 'warmupDuration'
+    | 'duration'
+    | 'steepness'
+    | 'events'
+    | 'hypno'
+    | 'credentials'
+    | 'porn'
+    | 'pornToCumTo'
+    | 'pornQuality'
+    | 'startVideosAtRandomTime'
+    | 'videosMuted'
+    | 'walltaker'
+  >
 > &
   RecursivePartial<Pick<IState['settings'], 'player' | 'pace' | 'cum'>>
 
@@ -41,10 +55,10 @@ export class SaveVersionEncodingError extends SaveError {}
 export function encodeSettings(settings: IState['settings'], options?: { includeCredentials?: boolean }): string {
   const pace: IState['settings']['pace'] = settings.pace
   const steepness: IState['settings']['steepness'] = settings.steepness
-  const warmpupDuration: IState['settings']['warmpupDuration'] = settings.warmpupDuration
+  const warmupDuration: IState['settings']['warmupDuration'] = settings.warmupDuration
   const duration: IState['settings']['duration'] = settings.duration
   const credentials: IState['settings']['credentials'] = settings.credentials
-  const porn: IState['settings']['porn'] = settings.porn.filter(({service}) => service !== PornService.LOCAL)
+  const porn: IState['settings']['porn'] = settings.porn.filter(({ service }) => service !== PornService.LOCAL)
   const pornToCumTo: IState['settings']['pornToCumTo'] = settings.pornToCumTo.filter(({service}) => service !== PornService.LOCAL)
   const pornQuality: IState['settings']['pornQuality'] = settings.pornQuality
   const startVideosAtRandomTime: IState['settings']['startVideosAtRandomTime'] = settings.startVideosAtRandomTime
@@ -59,7 +73,7 @@ export function encodeSettings(settings: IState['settings'], options?: { include
     paceMin: pace.min,
     paceMax: pace.max,
     steepness,
-    warmpupDuration,
+    warmupDuration,
     duration,
     credentials: options?.includeCredentials ? encodeCredentials(credentials) : undefined,
     porn,
@@ -84,7 +98,7 @@ export function decodeSettings(url: string): DecodedSettings {
     paceMin,
     paceMax,
     steepness,
-    warmpupDuration,
+    warmupDuration,
     duration,
     credentials,
     porn,
@@ -107,7 +121,7 @@ export function decodeSettings(url: string): DecodedSettings {
       max: paceMax,
     },
     steepness,
-    warmpupDuration,
+    warmupDuration,
     duration,
     credentials: decodeCredentials(credentials),
     porn,
@@ -133,7 +147,7 @@ export const saveSettings = debounce((settings: IState['settings']) => {
   localStorage.setItem('lastSession', window.btoa(encodeSettings(settings, { includeCredentials: true })))
 }, 1000)
 
-export const loadSettings = (dispatch: ThunkDispatch<IState, unknown, AnyAction>): void => {
+export const loadSettings = (dispatch: ThunkDispatch<IState, unknown, Action>): void => {
   const encodedSettings = localStorage.getItem('lastSession')
   if (encodedSettings) {
     const decodedSettings = window.atob(encodedSettings)
@@ -141,8 +155,8 @@ export const loadSettings = (dispatch: ThunkDispatch<IState, unknown, AnyAction>
   }
 }
 
-export function applyAllSettings(settings: DecodedSettings, dispatch: ThunkDispatch<IState, unknown, AnyAction>): void {
-  if (settings.warmpupDuration != null) dispatch(SettingsActions.SetWarmupDuration(settings.warmpupDuration))
+export function applyAllSettings(settings: DecodedSettings, dispatch: ThunkDispatch<IState, unknown, Action>): void {
+  if (settings.warmupDuration != null) dispatch(SettingsActions.SetWarmupDuration(settings.warmupDuration))
   if (settings.duration != null) dispatch(SettingsActions.SetDuration(settings.duration))
   if (settings.steepness != null) dispatch(SettingsActions.SetSteepness(settings.steepness))
   if (settings.events != null) dispatch(SettingsActions.SetEventList(settings.events))
@@ -163,13 +177,13 @@ export function applyAllSettings(settings: DecodedSettings, dispatch: ThunkDispa
 
 function encodeCredentials(credentials?: Credentials): string | undefined {
   if (credentials == null) return undefined
-  return window.btoa(JSON.stringify(credentials));
+  return window.btoa(JSON.stringify(credentials))
 }
 
 function decodeCredentials(credentials?: string): Credentials | undefined {
   if (credentials == null) return undefined
   const decoded = window.atob(credentials)
-  return JSON.parse(decoded);
+  return JSON.parse(decoded)
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

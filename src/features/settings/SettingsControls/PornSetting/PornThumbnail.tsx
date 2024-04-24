@@ -1,6 +1,6 @@
+import { PornType, type PornItem, PornService } from '../../../gameboard/types'
 import { useState, type FunctionComponent } from 'react'
-import styled from 'styled-components'
-import { type PornItem, PornType, PornService } from '../../../gameboard/types'
+import { styled } from 'styled-components'
 
 interface IPornThumbnailProps {
   porn: PornItem
@@ -50,9 +50,7 @@ const ThumbnailPreview = styled.img<{ src?: string }>`
     display: block;
   }
 
-  ${(props: { src?: string }) =>
-    !!props.src &&`background-image: url(${props.src})`
-  }
+  ${(props: { src?: string }) => !!props.src && `background-image: url(${props.src})`}
 `
 
 const VideoPreview = styled.video`
@@ -76,7 +74,7 @@ export const PornThumbnail: FunctionComponent<IPornThumbnailProps> = ({ porn, vi
   const preload = new Image()
   preload.src = porn.previewUrl
 
-  const [isPreviewShowing, setIsPreviewShowing] = useState(false);
+  const [isPreviewShowing, setIsPreviewShowing] = useState(false)
   return (
     <Thumbnail
       onClick={() => {
@@ -87,7 +85,9 @@ export const PornThumbnail: FunctionComponent<IPornThumbnailProps> = ({ porn, vi
       onMouseLeave={() => setIsPreviewShowing(false)}
     >
       {porn.service === PornService.LOCAL && <i title={porn.uniqueId}>📁</i>}
-      {porn.type === PornType.VIDEO && isPreviewShowing && <VideoPreview src={porn.hoverPreviewUrl} autoPlay={true} loop={true} muted={videosMuted} />}
+      {porn.type === PornType.VIDEO && isPreviewShowing && (
+        <VideoPreview src={porn.hoverPreviewUrl} autoPlay={true} loop={true} muted={videosMuted} />
+      )}
       {porn.type !== PornType.VIDEO && <ThumbnailPreview src={porn.hoverPreviewUrl} />}
     </Thumbnail>
   )

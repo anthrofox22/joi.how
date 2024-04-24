@@ -1,7 +1,16 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit'
 import { events } from '../../gameboard/events'
 
-import { HypnoMode, PlayerGender, PlayerParts, PornQuality, PornService, type Credentials, type EventToken, type PornList } from '../../gameboard/types'
+import {
+  HypnoMode,
+  PlayerGender,
+  PlayerParts,
+  PornQuality,
+  PornService,
+  type Credentials,
+  type EventToken,
+  type PornList,
+} from '../../gameboard/types'
 
 export interface ISettingsState {
   dialogShown: boolean
@@ -10,7 +19,7 @@ export interface ISettingsState {
     max: number
   }
   steepness: number
-  warmpupDuration: number
+  warmupDuration: number
   duration: number
   credentials: Credentials
   porn: PornList
@@ -40,7 +49,7 @@ const settingsSlice = createSlice({
       max: 5,
     },
     steepness: 0.05,
-    warmpupDuration: 1800,
+    warmupDuration: 600,
     duration: 6000,
     credentials: {},
     porn: [],
@@ -74,7 +83,7 @@ const settingsSlice = createSlice({
       state.steepness = action.payload
     },
     SetWarmupDuration: (state, action: PayloadAction<number>) => {
-      state.warmpupDuration = action.payload
+      state.warmupDuration = action.payload
     },
     SetDuration: (state, action: PayloadAction<number>) => {
       state.duration = action.payload
