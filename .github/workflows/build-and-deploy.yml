@@ -16,10 +16,18 @@ jobs:
       - name: Checkout 🛎️
         uses: actions/checkout@v4
 
+      - name: Setup Node.js 20.x
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          check-latest: true
+          cache: yarn
+          cache-dependency-path: yarn.lock
+
       - name: Install and Build 🔧
         run: |
-          npm ci
-          npm run build
+          yarn
+          yarn run build
 
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4
