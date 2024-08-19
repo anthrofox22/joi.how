@@ -5,6 +5,7 @@ import './index.css';
 import { SettingsProvider, ImageProvider } from './settings';
 import { E621Provider } from './e621';
 import { VibratorProvider } from './utils';
+import { StashProvider } from './stash';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
@@ -12,7 +13,9 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
       <ImageProvider>
         <VibratorProvider>
           <E621Provider>
-            <App />
+            <StashProvider>
+              <App />
+            </StashProvider>
           </E621Provider>
         </VibratorProvider>
       </ImageProvider>

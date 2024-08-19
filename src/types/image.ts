@@ -12,8 +12,10 @@ export interface ImageItem {
   source: string;
   service: ImageServiceType;
   id: string;
+  randomStart?: boolean;
 }
 
 export enum ImageServiceType {
   e621,
+  stash,
 }

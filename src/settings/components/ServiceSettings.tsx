@@ -3,6 +3,7 @@ import { SettingsTile, TabBar } from '../../common';
 import { E621Search } from '../../e621';
 import { useState } from 'react';
 import { WalltalkerSearch } from '../../walltalker';
+import { StashSearch } from '../../stash';
 
 const TabSettingsTile = styled(SettingsTile)`
   & > legend {
@@ -12,7 +13,9 @@ const TabSettingsTile = styled(SettingsTile)`
 `;
 
 export const ServiceSettings = () => {
-  const [activeTab, setActiveTab] = useState<'e621' | 'walltalker'>('e621');
+  const [activeTab, setActiveTab] = useState<'e621' | 'stash' | 'walltalker'>(
+    'e621'
+  );
 
   return (
     <TabSettingsTile
@@ -20,6 +23,7 @@ export const ServiceSettings = () => {
         <TabBar
           tabs={[
             { id: 'e621', content: 'e621' },
+            { id: 'stash', content: 'Stash' },
             // { id: 'walltalker', content: 'Walltalker' },
           ]}
           current={activeTab}
@@ -28,6 +32,7 @@ export const ServiceSettings = () => {
       }
     >
       {activeTab === 'e621' && <E621Search />}
+      {activeTab === 'stash' && <StashSearch />}
       {activeTab === 'walltalker' && <WalltalkerSearch />}
     </TabSettingsTile>
   );

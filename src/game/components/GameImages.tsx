@@ -119,7 +119,7 @@ export const GameImages = () => {
               item={currentImage}
               size={highRes ? ImageSize.full : ImageSize.preview}
               playable
-              randomStart
+              randomStart={currentImage.randomStart ?? true}
               loud={videoSound}
             />
           </StyledForegroundImage>
