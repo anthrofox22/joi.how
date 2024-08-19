@@ -42,7 +42,7 @@ export const ReleaseNotes = () => {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    fetch('/CHANGELOG.md')
+    fetch(`${import.meta.env.BASE_URL}CHANGELOG.md`)
       .then(response => response.text())
       .then(async text => setChangelog(await marked(text)));
   }, []);

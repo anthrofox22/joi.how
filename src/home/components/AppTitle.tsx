@@ -34,7 +34,7 @@ const StyledTitle = styled(ContentSection)`
 export const HomeTitle = () => {
   return (
     <StyledTitle>
-      <img src={'/logo.svg'} alt='JOI.how' />
+      <img src={`${import.meta.env.BASE_URL}logo.svg`} alt='JOI.how' />
       <h1>
         <abbr title='Jack Off Instructions'>JOI</abbr>
         <sup>.how</sup>
